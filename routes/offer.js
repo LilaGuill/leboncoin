@@ -20,7 +20,10 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
       price: newOffer.price,
       created: newOffer.created,
       creator: {
-        account: { username: req.user.account.username },
+        account: {
+          username: req.user.account.username,
+          phone: req.user.account.phone
+        },
         _id: req.user._id
       }
     });
