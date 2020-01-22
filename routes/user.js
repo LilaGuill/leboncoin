@@ -31,11 +31,11 @@ router.post("/user/signup", async (req, res) => {
         res.json({ message: error.message });
       }
     } else {
-      res.json({ message: "Cet utilisateur existe déjà" });
+      res.json({ message: "User already exists" });
     }
   } else {
     res.json({
-      message: "Veuillez indiquer un username, un email ou un mot de passe"
+      message: "Missing information"
     });
   }
 });
