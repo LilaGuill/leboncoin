@@ -10,16 +10,22 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
       description: req.fields.description,
       price: req.fields.price,
       created: new Date(),
+      creator: req.user
+    });
+
+    await newOffer.save();
+    res.json({
+      title: newOffer.title,
+      description: newOffer.description,
+      price: newOffer.price,
+      created: newOffer.created,
       creator: {
         account: { username: req.user.account.username },
         _id: req.user._id
       }
     });
-
-    await newOffer.save();
-    res.json(newOffer);
   } catch (error) {
-    res.satus(400).json({ message: "An error occured" });
+    res.status(400).json({ message: "An error occured" });
   }
 });
 

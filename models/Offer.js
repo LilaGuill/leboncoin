@@ -5,7 +5,10 @@ const Offer = mongoose.model("Offer", {
   description: String,
   price: Number,
   created: Date,
-  creator: Object
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 module.exports = Offer;
