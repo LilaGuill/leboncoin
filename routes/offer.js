@@ -14,6 +14,7 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
     });
 
     await newOffer.save();
+
     res.json({
       title: newOffer.title,
       description: newOffer.description,
@@ -21,14 +22,14 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
       created: newOffer.created,
       creator: {
         account: {
-          username: offer.creator.username,
-          phone: offer.creator.phone
+          username: newOffer.creator.account.username,
+          phone: newOffer.creator.account.phone
         },
         _id: req.user._id
       }
     });
   } catch (error) {
-    res.status(400).json({ message: "An error occured" });
+    res.status(400).json({ message: error.message });
   }
 });
 
@@ -80,7 +81,6 @@ router.get("/offer/:id", async (req, res) => {
   try {
     const userOffer = await Offer.find({ creator: id }).populate({
       path: "creator",
-
       select: "account"
     });
 
