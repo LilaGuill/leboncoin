@@ -2,9 +2,14 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const formidableMiddleware = require("express-formidable");
+const cors = require("cors");
 app.use(formidableMiddleware());
+app.use(cors());
+require("dotenv").config();
 
-mongoose.connect("mongodb://localhost/leboncoin", {
+console.log(process.env.MONGODB_URI);
+
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
@@ -19,6 +24,6 @@ app.use(offer);
 app.all("*", (req, res) => {
   res.status(404).json({ message: "Page not found" });
 });
-app.listen(3000, (req, res) => {
+app.listen(process.env.PORT, (req, res) => {
   console.log("Server started");
 });
