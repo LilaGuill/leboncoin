@@ -4,6 +4,15 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 const filter = require("../middleware/filter");
 const Offer = require("../models/Offer");
 
+router.get("/", async (req, res) => {
+  try {
+    const offers = await Offer.find();
+    res.json(offers);
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+});
+
 router.post("/offer/publish", isAuthenticated, async (req, res) => {
   try {
     const newOffer = new Offer({

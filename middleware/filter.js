@@ -3,6 +3,7 @@ const filter = async (req, res, next) => {
     const filter = {};
     if (req.query.title) {
       filter.title = new RegExp(req.query.title, "i");
+      console.log(filter.title);
     }
     if (req.query.priceMax || req.query.priceMin) {
       filter.price = {};
@@ -13,8 +14,9 @@ const filter = async (req, res, next) => {
         filter.price.$gte = req.query.priceMin;
       }
     }
-
-    req.filter = filter;
+    console.log(filter);
+    req.filter = filter; //l'objet filter est disponible dans
+    //le req de la route
 
     return next();
   } catch (error) {
