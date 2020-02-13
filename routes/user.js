@@ -26,7 +26,11 @@ router.post("/user/signup", async (req, res) => {
           }
         });
         await newUser.save();
-        res.json({ newUser });
+        res.json({
+          token: newUser.token,
+          email: newUser.email,
+          username: newUser.account.username
+        });
       } catch (error) {
         res.json({ message: error.message });
       }
@@ -40,7 +44,7 @@ router.post("/user/signup", async (req, res) => {
   }
 });
 
-router.post("/user/log_in", async (req, res) => {
+router.post("/user/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.fields.email });
 

@@ -85,10 +85,9 @@ router.get("/offer/with-count", filter, async (req, res) => {
 });
 
 router.get("/offer/:id", async (req, res) => {
-  console.log(req.params.id);
   const id = req.params.id;
   try {
-    const userOffer = await Offer.find({ creator: id }).populate({
+    const userOffer = await Offer.findById(id).populate({
       path: "creator",
       select: "account"
     });
