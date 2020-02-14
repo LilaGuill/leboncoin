@@ -5,7 +5,6 @@ const filter = require("../middleware/filter");
 const Offer = require("../models/Offer");
 
 router.get("/", async (req, res) => {
-  console.log(req.query.page);
   const offerLength = await Offer.find();
   count = offerLength.length;
 
@@ -16,11 +15,6 @@ router.get("/", async (req, res) => {
       .sort({ created: "desc" })
       .limit(limit)
       .skip(limit * (page - 1));
-    // if (req.query.page) {
-    //   const page = Number(req.query.page);
-    //   const limit = 5;
-    //   const offers = await offers.limit(limit).skip(limit * (page - 1));
-    // }
 
     res.json({ count, offers });
   } catch (error) {
