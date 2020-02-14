@@ -47,7 +47,6 @@ router.post("/user/signup", async (req, res) => {
 router.post("/user/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.fields.email });
-
     if (user) {
       const uncrypted = uncryptPassword(req.fields.password, user);
 

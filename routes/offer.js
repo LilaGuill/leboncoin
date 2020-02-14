@@ -5,9 +5,24 @@ const filter = require("../middleware/filter");
 const Offer = require("../models/Offer");
 
 router.get("/", async (req, res) => {
+  console.log(req.query.page);
+  const offerLength = await Offer.find();
+  count = offerLength.length;
+
   try {
-    const offers = await Offer.find();
-    res.json(offers);
+    const limit = 3;
+    const page = Number(req.query.page);
+    const offers = await Offer.find()
+      .sort({ created: "desc" })
+      .limit(limit)
+      .skip(limit * (page - 1));
+    // if (req.query.page) {
+    //   const page = Number(req.query.page);
+    //   const limit = 5;
+    //   const offers = await offers.limit(limit).skip(limit * (page - 1));
+    // }
+
+    res.json({ count, offers });
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -71,7 +86,7 @@ router.get("/offer/with-count", filter, async (req, res) => {
 
     if (req.query.page) {
       const page = req.query.page;
-      const limit = 2;
+      const limit = 5;
       await offers.limit(limit).skip(limit * (page - 1));
     }
     const offer = await offers;
