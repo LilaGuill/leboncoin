@@ -8,7 +8,7 @@ const Offer = mongoose.model("Offer", {
   },
   description: {
     type: String,
-    maxlength: 50,
+    maxlength: 350,
     lowercase: true
   },
   price: {
