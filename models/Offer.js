@@ -8,12 +8,16 @@ const Offer = mongoose.model("Offer", {
   },
   description: {
     type: String,
-    maxlength: 50
+    maxlength: 50,
+    lowercase: true
   },
   price: {
     type: Number,
     min: 0,
     max: 100000
+  },
+  image: {
+    type: String
   },
   created: {
     type: Date,

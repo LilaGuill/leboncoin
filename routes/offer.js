@@ -1,16 +1,18 @@
 const express = require("express");
 const router = express.Router();
+const cloudinary = require("cloudinary").v2;
 const isAuthenticated = require("../middleware/isAuthenticated");
 const filter = require("../middleware/filter");
 const Offer = require("../models/Offer");
 
 router.get("/", async (req, res) => {
-  const offerLength = await Offer.find();
-  count = offerLength.length;
-
   try {
+    const offerLength = await Offer.find();
+    count = offerLength.length;
+
     const limit = 3;
     const page = Number(req.query.page);
+
     const offers = await Offer.find()
       .sort({ created: "desc" })
       .limit(limit)
@@ -22,12 +24,45 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post("/search", async (req, res) => {
+  const search = req.fields.search;
+  try {
+    const offerSearch = await Offer.find({
+      title: { $regex: search, $options: "i" }
+    });
+    count = offerSearch.length;
+
+    const limit = 3;
+    const page = Number(req.query.page);
+
+    const offers = await Offer.find({
+      title: { $regex: search, $options: "i" }
+    })
+      .sort({ created: "desc" })
+      .limit(limit)
+      .skip(limit * (page - 1));
+
+    res.json({ count, offers });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+});
+
 router.post("/offer/publish", isAuthenticated, async (req, res) => {
+  const file = req.files.file.path;
+
+  const picture = await cloudinary.uploader.upload(file, {
+    width: 500,
+    height: 280,
+    crop: "fill"
+  });
+
   try {
     const newOffer = new Offer({
       title: req.fields.title,
       description: req.fields.description,
       price: req.fields.price,
+      image: picture.secure_url,
       creator: req.user
     });
 
@@ -37,6 +72,7 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
       title: newOffer.title,
       description: newOffer.description,
       price: newOffer.price,
+      image: newOffer.image,
       created: newOffer.created,
       creator: {
         account: {
@@ -95,13 +131,26 @@ router.get("/offer/with-count", filter, async (req, res) => {
 
 router.get("/offer/:id", async (req, res) => {
   const id = req.params.id;
+
   try {
     const userOffer = await Offer.findById(id).populate({
       path: "creator",
       select: "account"
     });
 
-    res.json(userOffer);
+    const userId = userOffer.creator._id;
+
+    //recherche du nombre d'annonce
+    const userOffers = await Offer.find().populate({
+      path: "creator",
+      select: "_id",
+      match: {
+        _id: userId
+      }
+    });
+    const countOffers = userOffers.length;
+
+    res.json({ userOffer: userOffer, countOffers: countOffers });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
