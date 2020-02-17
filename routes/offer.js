@@ -49,15 +49,14 @@ router.post("/search", async (req, res) => {
 });
 
 router.post("/offer/publish", isAuthenticated, async (req, res) => {
-  const file = req.files.file.path;
-
-  const picture = await cloudinary.uploader.upload(file, {
-    width: 500,
-    height: 280,
-    crop: "fill"
-  });
-
   try {
+    const file = req.files.file.path;
+
+    const picture = await cloudinary.uploader.upload(file, {
+      width: 500,
+      height: 280,
+      crop: "fill"
+    });
     const newOffer = new Offer({
       title: req.fields.title,
       description: req.fields.description,
