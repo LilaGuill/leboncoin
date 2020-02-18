@@ -8,7 +8,7 @@ const Pay = mongoose.model("Pay", {
   },
   account: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Offer"
+    ref: "User"
   },
   created: {
     type: Date,

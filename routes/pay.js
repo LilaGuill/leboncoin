@@ -3,35 +3,45 @@ const router = express.Router();
 const stripe = require("stripe")("sk_test_5ku4MO64Axct6ShGZbaz6RPT");
 const Pay = require("../models/Pay");
 const User = require("../models/User");
+const Offer = require("../models/Offer");
 
 router.post("/pay", async (req, res) => {
-  const stripeToken = req.fields.stripeToken;
-  const price = req.fields.price * 10;
-  const title = req.fields.title;
-  const offerId = req.fields.offerid;
+  try {
+    const stripeToken = req.fields.stripeToken;
+    const price = req.fields.price * 10;
+    const title = req.fields.title;
+    const offerId = req.fields.offerId;
 
-  const response = await stripe.charges.create({
-    amount: price,
-    currency: "eur",
-    description: title,
-    source: stripeToken
-  });
+    const response = await stripe.charges.create({
+      amount: price,
+      currency: "eur",
+      description: title,
+      source: stripeToken
+    });
+    if (response.status === "succeeded") {
+      //récupère l'id de l'utilisateur
+      const token = req.fields.token;
+      const user = await User.findOne({ token: token });
+      const userId = user._id;
 
-  const token = req.fields.token;
-  const user = await User.findOne({ token: token });
-  const userId = user._id;
+      //sauvegarde du paiment dans la collection
+      const payment = await new Pay({
+        amount: price,
+        offer: offerId,
+        account: userId
+      });
+      await payment.save();
+      //l'annonce est retiré de la collection
+      const offerToRemove = await Offer.findById(offerId);
+      await offerToRemove.remove();
 
-  const payment = await new Pay({
-    amount: price,
-    offer: offerId,
-    account: userId
-  });
-  await payment.save();
-  //   console.log(response);
-
-  //recherche l'id du user
-
-  //extrait le token généré par stripe
+      res.json({ message: "success" });
+    } else {
+      res.json({ message: "incident de paiement" });
+    }
+  } catch (error) {
+    res.json({ message: error.message });
+  }
 });
 
 module.exports = router;
