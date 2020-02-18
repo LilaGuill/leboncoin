@@ -5,25 +5,6 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 const filter = require("../middleware/filter");
 const Offer = require("../models/Offer");
 
-router.get("/", async (req, res) => {
-  try {
-    const offerLength = await Offer.find();
-    count = offerLength.length;
-
-    const limit = 3;
-    const page = Number(req.query.page);
-
-    const offers = await Offer.find()
-      .sort({ created: "desc" })
-      .limit(limit)
-      .skip(limit * (page - 1));
-
-    res.json({ count, offers });
-  } catch (error) {
-    res.json({ message: error.message });
-  }
-});
-
 router.post("/search", async (req, res) => {
   const search = req.fields.search;
   try {
@@ -140,20 +121,30 @@ router.get("/offer/:id", async (req, res) => {
     });
 
     const userId = userOffer.creator._id;
-
     //recherche du nombre d'annonce
-    const userOffers = await Offer.find().populate({
-      path: "creator",
-      select: "_id",
-      match: {
-        _id: userId
-      }
-    });
-    const countOffers = userOffers.length;
+    const countOffers = await Offer.countDocuments({ creator: userId });
 
     res.json({ userOffer: userOffer, countOffers: countOffers });
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+});
+router.get("/", async (req, res) => {
+  try {
+    const offerLength = await Offer.find();
+    count = offerLength.length;
+
+    const limit = 3;
+    const page = Number(req.query.page);
+
+    const offers = await Offer.find()
+      .sort({ created: "desc" })
+      .limit(limit)
+      .skip(limit * (page - 1));
+
+    res.json({ count, offers });
+  } catch (error) {
+    res.json({ message: error.message });
   }
 });
 
