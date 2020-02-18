@@ -57,6 +57,8 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
       height: 280,
       crop: "fill"
     });
+
+    console.log(picture.secure_url);
     const newOffer = new Offer({
       title: req.fields.title,
       description: req.fields.description,

@@ -22,9 +22,10 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 const user = require("./routes/user");
 app.use(user);
-
 const offer = require("./routes/offer");
 app.use(offer);
+const pay = require("./routes/pay");
+app.use(pay);
 
 app.all("*", (req, res) => {
   res.status(404).json({ message: "Page not found" });

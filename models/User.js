@@ -7,7 +7,7 @@ const User = mongoose.model("User", {
   salt: String,
   //l'objet account contiendra les données non sensibles
   account: {
-    username: { type: String, unique: true, lowercas: true },
+    username: { type: String, unique: true, lowercase: true },
     phone: { type: String }
   }
 });
