@@ -57,8 +57,8 @@ npx nodemon index.js
 
 - HTTP request with axios (get, post)
 - Hooks (useState, useEffect)
-- React Router Dom``
-- Hande Cookies
+- React Router Dom
+- Handle Cookies
 - React stripe elements
 
 ## Overview
@@ -73,7 +73,7 @@ npx nodemon index.js
 
 ## Leboncoin Client
 
-<a href="https://leboncoin-frontend.netlify.com/">https://leboncoin-frontend.netlify.com/</a>
+<a href="https://github.com/LilaGuill/leboncoin-frontend">https://github.com/LilaGuill/leboncoin-frontend</a>
 
 ## Deployment
 
