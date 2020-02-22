@@ -1,4 +1,4 @@
-<h1 align="center">Leboncoin API</h1>
+<h1 align="center">Leboncoin backend</h1>
 
 ## Server
 
@@ -37,7 +37,7 @@
 Clone this repository :
 
 ```
-git clone https://github.com/LilaGuill/leboncoin.git
+git clone https://github.com/LilaGuill/leboncoin-backend.git
 cd leboncoin
 ```
 
