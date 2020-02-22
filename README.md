@@ -38,7 +38,7 @@ Clone this repository :
 
 ```
 git clone https://github.com/LilaGuill/leboncoin-backend.git
-cd leboncoin
+cd leboncoin-backend
 ```
 
 Install packages :
