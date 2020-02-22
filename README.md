@@ -16,11 +16,13 @@
 
 **Architecture**
 
-- route offer:
+- Route offer:
+
   - create offer in MongoDB Database
   - get offer from MongoDB Database with limit
   - search offer in MongoDB Database
-- route user :
+
+- Route user :
 
   - signup : create crypted password and token, both are saved in mongoDB Database
   - login : decrypted password
@@ -69,7 +71,7 @@ npx nodemon index.js
   Demo:<a href="https://todolist-react-lg.netlify.com/" target="_blank"> https://todolist-react.netlify.com</a>
 </p>
 
-## React Todo List Client
+## Leboncoin Client
 
 <a href="https://leboncoin-frontend.netlify.com/">https://leboncoin-frontend.netlify.com/</a>
 
