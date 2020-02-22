@@ -1,1 +1,84 @@
-# leboncoin
+<h1 align="center">Leboncoin API</h1>
+
+## Server
+
+**Dependencies**
+
+- Express
+- Express-formidable
+- Mongoose
+- Cloudinary
+- Stripe
+- Crypto-js
+- Uid2
+- Cors
+- Dotenv
+
+**Architecture**
+
+- route offer:
+  - create offer in MongoDB Database
+  - get offer from MongoDB Database with limit
+  - search offer in MongoDB Database
+- route user :
+
+  - signup : create crypted password and token, both are saved in mongoDB Database
+  - login : decrypted password
+
+- Route pay :
+  - verify stripToken
+  - stripe charges created
+  - save paiement in MongoDB Database
+
+## Running the project
+
+Clone this repository :
+
+```
+git clone https://github.com/LilaGuill/leboncoin.git
+cd leboncoin
+```
+
+Install packages :
+
+```
+npm install
+```
+
+When installation is complete, run the project with:
+
+```
+npx nodemon index.js
+```
+
+## Client
+
+- HTTP request with axios (get, post)
+- Hooks (useState, useEffect)
+- React Router Dom``
+- Hande Cookies
+- React stripe elements
+
+## Overview
+
+  <p align="center">
+    <img width="500" src="https://github.com/LilaGuill/leboncoin-frontend/blob/master/public/screen.png" alt="capture-1">
+  </p>
+
+<p align="center">
+  Demo:<a href="https://todolist-react-lg.netlify.com/" target="_blank"> https://todolist-react.netlify.com</a>
+</p>
+
+## React Todo List Client
+
+<a href="https://leboncoin-frontend.netlify.com/">https://leboncoin-frontend.netlify.com/</a>
+
+## Deployment
+
+- Client deployed with Netlify
+- Server deployed with Heroku
+- MongoDb database hosted on Mlab
+
+## Contact
+
+<a href="https://www.linkedin.com/in/lila-guillermic-66542476/" target="_blank">My Linkedin Profil</a>
