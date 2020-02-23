@@ -4,6 +4,7 @@
 
 **Dependencies**
 
+- Node.js
 - Express
 - Express-formidable
 - Mongoose
@@ -18,19 +19,19 @@
 
 - Route offer:
 
-  - create offer in MongoDB Database
-  - get offer from MongoDB Database with limit
-  - search offer in MongoDB Database
+  - create offer in mongoDB database
+  - get offer from mongoDB database with limit
+  - search offer in mongoDB database
 
 - Route user :
 
-  - signup : create crypted password and token, both are saved in mongoDB Database
+  - signup : create crypted password and token, both are saved in mongoDB database
   - login : decrypted password
 
 - Route pay :
-  - verify stripToken
+  - verify stripeToken
   - stripe charges created
-  - save paiement in MongoDB Database
+  - save paiement in mongoDB database
 
 ## Running the project
 
@@ -55,6 +56,7 @@ npx nodemon index.js
 
 ## Client
 
+- React
 - HTTP request with axios (get, post)
 - Hooks (useState, useEffect)
 - React Router Dom
