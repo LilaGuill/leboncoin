@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const stripe = require("stripe")("sk_test_5ku4MO64Axct6ShGZbaz6RPT");
+const stripe = require("stripe")(process.env.STRIPE_API_KEY);
 const Pay = require("../models/Pay");
 const User = require("../models/User");
 const Offer = require("../models/Offer");
@@ -16,8 +16,9 @@ router.post("/pay", async (req, res) => {
       amount: price,
       currency: "eur",
       description: title,
-      source: stripeToken
+      source: stripeToken,
     });
+
     if (response.status === "succeeded") {
       //récupère l'id de l'utilisateur
       const token = req.fields.token;
@@ -28,9 +29,10 @@ router.post("/pay", async (req, res) => {
       const payment = await new Pay({
         amount: price,
         offer: offerId,
-        account: userId
+        account: userId,
       });
       await payment.save();
+
       //l'annonce est retiré de la collection
       const offerToRemove = await Offer.findById(offerId);
       await offerToRemove.remove();

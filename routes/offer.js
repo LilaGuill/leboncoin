@@ -9,7 +9,7 @@ router.post("/search", async (req, res) => {
   const search = req.fields.search;
   try {
     const offerSearch = await Offer.find({
-      title: { $regex: search, $options: "i" }
+      title: { $regex: search, $options: "i" },
     });
     count = offerSearch.length;
 
@@ -17,7 +17,7 @@ router.post("/search", async (req, res) => {
     const page = Number(req.query.page);
 
     const offers = await Offer.find({
-      title: { $regex: search, $options: "i" }
+      title: { $regex: search, $options: "i" },
     })
       .sort({ created: "desc" })
       .limit(limit)
@@ -36,7 +36,7 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
     const picture = await cloudinary.uploader.upload(file, {
       width: 500,
       height: 280,
-      crop: "fill"
+      crop: "fill",
     });
 
     // console.log(picture.secure_url);
@@ -45,7 +45,7 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
       description: req.fields.description,
       price: req.fields.price,
       image: picture.secure_url,
-      creator: req.user
+      creator: req.user,
     });
 
     await newOffer.save();
@@ -59,10 +59,10 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
       creator: {
         account: {
           username: newOffer.creator.account.username,
-          phone: newOffer.creator.account.phone
+          phone: newOffer.creator.account.phone,
         },
-        _id: req.user._id
-      }
+        _id: req.user._id,
+      },
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -76,7 +76,7 @@ router.get("/offer/with-count", filter, async (req, res) => {
     if (req.filter) {
       offers = Offer.find(req.filter).populate({
         path: "creator",
-        select: "account"
+        select: "account",
       });
     } else {
       offers = Offer.find().populate({ path: "creator", select: "account" });
@@ -104,7 +104,7 @@ router.get("/offer/with-count", filter, async (req, res) => {
     const offer = await offers;
     res.json({
       count: offers.count,
-      offer
+      offer,
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -117,7 +117,7 @@ router.get("/offer/:id", async (req, res) => {
   try {
     const userOffer = await Offer.findById(id).populate({
       path: "creator",
-      select: "account"
+      select: "account",
     });
 
     const userId = userOffer.creator._id;
